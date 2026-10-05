@@ -47,12 +47,7 @@ float4 colour(thread const uint& c)
 
 vertex main0_out main0(const device vtx_buf& _56 [[buffer(0)]], uint gl_InstanceIndex [[instance_id]], uint gl_VertexIndex [[vertex_id]])
 {
-    vtx_t v;
-    v.rect = _56.vtx[int(gl_InstanceIndex)].rect;
-    v.uv = _56.vtx[int(gl_InstanceIndex)].uv;
-    v.c0 = _56.vtx[int(gl_InstanceIndex)].c0;
-    v.c1 = _56.vtx[int(gl_InstanceIndex)].c1;
-    v.scr = _56.vtx[int(gl_InstanceIndex)].scr;
+    vtx_t v = _56.vtx[gl_InstanceIndex];
 
     float2 p = float2(float(int(gl_VertexIndex) & 1), float((int(gl_VertexIndex) >> 1) & 1));
     float2 f_uv = v.uv.xy + (p * v.uv.zw);

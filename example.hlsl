@@ -1,5 +1,3 @@
-ByteAddressBuffer _56 : register(t0);
-
 struct main0_out {
   float2 f_uv        : TEXCOORD0;
   float4 f_c0        : TEXCOORD1;
@@ -14,6 +12,8 @@ struct vtx_t {
   uint c1;
   float2 scr;
 };
+
+StructuredBuffer<vtx_t> _56 : register(t0);
 
 struct SPIRV_Cross_Input
 {
@@ -35,12 +35,7 @@ main0_out main(SPIRV_Cross_Input stage_input)
     uint gl_VertexIndex = stage_input.gl_VertexIndex;
     uint gl_InstanceIndex = stage_input.gl_InstanceIndex;
 
-    vtx_t v;
-    v.rect = asfloat(_56.Load4(gl_InstanceIndex * 48 + 0));
-    v.uv = asfloat(_56.Load4(gl_InstanceIndex * 48 + 16));
-    v.c0 = _56.Load(gl_InstanceIndex * 48 + 32);
-    v.c1 = _56.Load(gl_InstanceIndex * 48 + 36);
-    v.scr = asfloat(_56.Load2(gl_InstanceIndex * 48 + 40));
+    vtx_t v = _56[gl_InstanceIndex];
 
     float2 p = float2(float(gl_VertexIndex & 1), float((gl_VertexIndex >> 1) & 1));
     float2 f_uv = v.uv.xy + (p * v.uv.zw);
