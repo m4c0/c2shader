@@ -18,7 +18,7 @@ static float4 f_c1;
 
 struct SPIRV_Cross_Input
 {
-    uint gl_VertexIndex : SV_VertexIDs;
+    uint gl_VertexIndex : SV_VertexID;
     uint gl_InstanceIndex : SV_InstanceID;
 };
 
