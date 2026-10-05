@@ -43,7 +43,7 @@ float4 colour(uint c) {
   return float4(float(r), float(g), float(b), float(a)) / 255.0f;
 }
 
-VERTEX(main0_out, main, vtx_t, uint gl_VertexIndex VID, uint gl_InstanceIndex IID) {
+VERTEX(main0_out, main0, vtx_t, uint gl_VertexIndex VID, uint gl_InstanceIndex IID) {
   vtx_t v = _56[gl_InstanceIndex];
 
   float2 p = float2(gl_VertexIndex & 1, (gl_VertexIndex >> 1) & 1);

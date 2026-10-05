@@ -56,9 +56,9 @@ static int dxc(const char * model, const char * entry, const char * src, const c
 
 int main() {
 #ifdef __APPLE__
-  RUN("xcrun", "-sdk", "macosx", "metal", "-DMETAL", "example.h", "-o", "example.metallib");
+  RUN("xcrun", "-sdk", "macosx", "metal", "-DMETAL", "-x", "metal", "example.h", "-o", "example.metallib");
 #elif _WIN32
-  if (dxc("vs_5_0", "main", "example.h", "example.dxil")) return 1;
+  if (dxc("vs_5_0", "main0", "example.h", "example.dxil")) return 1;
 #endif
   return 0;
 }
