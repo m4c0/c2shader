@@ -37,8 +37,11 @@ float4 colour(uint c)
     return float4(float(r), float(g), float(b), float(a)) / 255.0f.xxxx;
 }
 
-void vert_main()
+main0_out main(SPIRV_Cross_Input stage_input)
 {
+    gl_VertexIndex = int(stage_input.gl_VertexIndex);
+    gl_InstanceIndex = int(stage_input.gl_InstanceIndex);
+
     vtx_t _63;
     _63.rect = asfloat(_56.Load4(gl_InstanceIndex * 48 + 0));
     _63.uv = asfloat(_56.Load4(gl_InstanceIndex * 48 + 16));
@@ -61,13 +64,7 @@ void vert_main()
     p = (p * 2.0f) - 1.0f.xx;
     gl_Position = float4(p, 0.0f, 1.0f);
     gl_Position.y = -gl_Position.y;
-}
 
-main0_out main(SPIRV_Cross_Input stage_input)
-{
-    gl_VertexIndex = int(stage_input.gl_VertexIndex);
-    gl_InstanceIndex = int(stage_input.gl_InstanceIndex);
-    vert_main();
     main0_out stage_output;
     stage_output.gl_Position = gl_Position;
     stage_output.f_uv = f_uv;
