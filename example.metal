@@ -20,11 +20,6 @@ struct vtx_t {
   float2 scr;
 };
 
-struct main0_in {
-  uint gl_InstanceIndex [[instance_id]];
-  uint gl_VertexIndex   [[vertex_id]];
-};
-
 float4 colour(uint c) {
   uint r = (c >> uint(24)) & 255u;
   uint g = (c >> uint(16)) & 255u;
@@ -33,10 +28,14 @@ float4 colour(uint c) {
   return float4(float(r), float(g), float(b), float(a)) / 255.0f.xxxx;
 }
 
-vertex main0_out main0(const device vtx_t * _56 [[buffer(0)]], main0_in stage_input) {
-    vtx_t v = _56[stage_input.gl_InstanceIndex];
+vertex main0_out main0(
+  const device vtx_t * _56 [[buffer(0)]],
+  uint gl_InstanceIndex [[instance_id]],
+  uint gl_VertexIndex   [[vertex_id]]
+) {
+    vtx_t v = _56[gl_InstanceIndex];
 
-    float2 p = float2(float(stage_input.gl_VertexIndex & 1), float((stage_input.gl_VertexIndex >> 1) & 1));
+    float2 p = float2(float(gl_VertexIndex & 1), float((gl_VertexIndex >> 1) & 1));
     float2 f_uv = v.uv.xy + (p * v.uv.zw);
     uint param = v.c0;
     float4 f_c0 = colour(param);

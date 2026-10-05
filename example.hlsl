@@ -13,11 +13,6 @@ struct vtx_t {
   float2 scr;
 };
 
-struct main0_in {
-  uint gl_VertexIndex   : SV_VertexID;
-  uint gl_InstanceIndex : SV_InstanceID;
-};
-
 float4 colour(uint c) {
   uint r = (c >> uint(24)) & 255u;
   uint g = (c >> uint(16)) & 255u;
@@ -27,10 +22,13 @@ float4 colour(uint c) {
 }
 
 StructuredBuffer<vtx_t> _56 : register(t0);
-main0_out main(main0_in stage_input) {
-    vtx_t v = _56[stage_input.gl_InstanceIndex];
+main0_out main(
+  uint gl_VertexIndex   : SV_VertexID,
+  uint gl_InstanceIndex : SV_InstanceID
+) {
+    vtx_t v = _56[gl_InstanceIndex];
 
-    float2 p = float2(float(stage_input.gl_VertexIndex & 1), float((stage_input.gl_VertexIndex >> 1) & 1));
+    float2 p = float2(float(gl_VertexIndex & 1), float((gl_VertexIndex >> 1) & 1));
     float2 f_uv = v.uv.xy + (p * v.uv.zw);
     uint param = v.c0;
     float4 f_c0 = colour(param);
