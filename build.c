@@ -49,16 +49,16 @@ static int dxc(const char * model, const char * entry, const char * src, const c
       "c:\\Program Files (x86)\\Windows Kits\\10\\bin\\%s\\x64\\dxc.exe",
       win_kit_version);
 
-  RUN(argv0, "-T", strdup(model), "-E", strdup(entry), strdup(src), "-Fo", strdup(out));
+  RUN(argv0, "-D", "HLSL", "-T", strdup(model), "-E", strdup(entry), strdup(src), "-Fo", strdup(out));
   return 0;
 }
 #endif
 
 int main() {
 #ifdef __APPLE__
-  RUN("xcrun", "-sdk", "macosx", "metal", "example.metal", "-o", "example.metallib");
+  RUN("xcrun", "-sdk", "macosx", "metal", "-DMETAL", "example.h", "-o", "example.metallib");
 #elif _WIN32
-  if (dxc("vs_5_0", "main", "example.hlsl", "example.dxil")) return 1;
+  if (dxc("vs_5_0", "main", "example.h", "example.dxil")) return 1;
 #endif
   return 0;
 }
