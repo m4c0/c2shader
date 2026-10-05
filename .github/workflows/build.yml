@@ -6,14 +6,14 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
-      - run: xcrun -sdk macosx metal example.metal -o example.metallib
+      - run: clang -o build build.c
+      - run: ./build
   build-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v6
-      - run: |
-          "${env:ProgramFiles(x86)}\Windows Kits\10\bin\${env:WIN_KIT_VERSION}\x64\dxc.exe" -T vs_5_0 -E main example.hlsl -Fo example.dxil
-        shell: pwsh
+      - run: clang -o build.exe build.c
+      - run: build.exe
         env:
           WIN_KIT_VERSION: 10.0.26100.0
 

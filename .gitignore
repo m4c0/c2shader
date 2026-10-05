@@ -1,0 +1,5 @@
+build
+*.dxil
+*.exe
+*.metallib
+*.o
