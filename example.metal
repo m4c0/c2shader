@@ -33,17 +33,17 @@ vertex main0_out main0(
   uint gl_InstanceIndex [[instance_id]],
   uint gl_VertexIndex   [[vertex_id]]
 ) {
-    vtx_t v = _56[gl_InstanceIndex];
+  vtx_t v = _56[gl_InstanceIndex];
 
-    float2 p = float2(float(gl_VertexIndex & 1), float((gl_VertexIndex >> 1) & 1));
-    float2 f_uv = v.uv.xy + (p * v.uv.zw);
-    p = (v.rect.xy + (p * v.rect.zw)) / v.scr;
-    p = (p * 2.0f) - 1.0f;
+  float2 p = float2(gl_VertexIndex & 1, (gl_VertexIndex >> 1) & 1);
+  float2 f_uv = v.uv.xy + (p * v.uv.zw);
+  p = (v.rect.xy + (p * v.rect.zw)) / v.scr;
+  p = (p * 2.0f) - 1.0f;
 
-    main0_out stage_output;
-    stage_output.gl_Position = float4(p, 0.0f, 1.0f);
-    stage_output.f_uv = f_uv;
-    stage_output.f_c0 = colour(v.c0);
-    stage_output.f_c1 = colour(v.c1);
-    return stage_output;
+  main0_out stage_output;
+  stage_output.gl_Position = float4(p, 0.0f, 1.0f);
+  stage_output.f_uv = f_uv;
+  stage_output.f_c0 = colour(v.c0);
+  stage_output.f_c1 = colour(v.c1);
+  return stage_output;
 }
