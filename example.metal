@@ -47,22 +47,28 @@ float4 colour(thread const uint& c)
 
 vertex main0_out main0(const device vtx_buf& _56 [[buffer(0)]], uint gl_InstanceIndex [[instance_id]], uint gl_VertexIndex [[vertex_id]])
 {
-    main0_out out = {};
     vtx_t v;
     v.rect = _56.vtx[int(gl_InstanceIndex)].rect;
     v.uv = _56.vtx[int(gl_InstanceIndex)].uv;
     v.c0 = _56.vtx[int(gl_InstanceIndex)].c0;
     v.c1 = _56.vtx[int(gl_InstanceIndex)].c1;
     v.scr = _56.vtx[int(gl_InstanceIndex)].scr;
+
     float2 p = float2(float(int(gl_VertexIndex) & 1), float((int(gl_VertexIndex) >> 1) & 1));
-    out.f_uv = v.uv.xy + (p * v.uv.zw);
+    float2 f_uv = v.uv.xy + (p * v.uv.zw);
     uint param = v.c0;
-    out.f_c0 = colour(param);
+    float4 f_c0 = colour(param);
     uint param_1 = v.c1;
-    out.f_c1 = colour(param_1);
+    float4 f_c1 = colour(param_1);
     p = (v.rect.xy + (p * v.rect.zw)) / v.scr;
     p = (p * 2.0) - float2(1.0);
-    out.gl_Position = float4(p, 0.0, 1.0);
-    out.gl_Position.y = -(out.gl_Position.y);    // Invert Y-axis for Metal
-    return out;
+    float4 gl_Position = float4(p, 0.0f, 1.0f);
+    gl_Position.y = -gl_Position.y;
+
+    main0_out stage_output;
+    stage_output.gl_Position = gl_Position;
+    stage_output.f_uv = f_uv;
+    stage_output.f_c0 = f_c0;
+    stage_output.f_c1 = f_c1;
+    return stage_output;
 }
