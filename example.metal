@@ -25,7 +25,7 @@ float4 colour(uint c) {
   uint g = (c >> uint(16)) & 255u;
   uint b = (c >> uint(8)) & 255u;
   uint a = c & 255u;
-  return float4(float(r), float(g), float(b), float(a)) / 255.0f.xxxx;
+  return float4(float(r), float(g), float(b), float(a)) / 255.0f;
 }
 
 vertex main0_out main0(
@@ -38,7 +38,7 @@ vertex main0_out main0(
     float2 p = float2(float(gl_VertexIndex & 1), float((gl_VertexIndex >> 1) & 1));
     float2 f_uv = v.uv.xy + (p * v.uv.zw);
     p = (v.rect.xy + (p * v.rect.zw)) / v.scr;
-    p = (p * 2.0f) - float2(1.0f);
+    p = (p * 2.0f) - 1.0f;
 
     main0_out stage_output;
     stage_output.gl_Position = float4(p, 0.0f, 1.0f);
