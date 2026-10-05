@@ -13,31 +13,24 @@ struct vtx_t {
   float2 scr;
 };
 
-StructuredBuffer<vtx_t> _56 : register(t0);
-
-struct SPIRV_Cross_Input
-{
-    uint gl_VertexIndex : SV_VertexID;
-    uint gl_InstanceIndex : SV_InstanceID;
+struct main0_in {
+  uint gl_VertexIndex   : SV_VertexID;
+  uint gl_InstanceIndex : SV_InstanceID;
 };
 
-float4 colour(uint c)
-{
-    uint r = (c >> uint(24)) & 255u;
-    uint g = (c >> uint(16)) & 255u;
-    uint b = (c >> uint(8)) & 255u;
-    uint a = c & 255u;
-    return float4(float(r), float(g), float(b), float(a)) / 255.0f.xxxx;
+float4 colour(uint c) {
+  uint r = (c >> uint(24)) & 255u;
+  uint g = (c >> uint(16)) & 255u;
+  uint b = (c >> uint(8)) & 255u;
+  uint a = c & 255u;
+  return float4(float(r), float(g), float(b), float(a)) / 255.0f.xxxx;
 }
 
-main0_out main(SPIRV_Cross_Input stage_input)
-{
-    uint gl_VertexIndex = stage_input.gl_VertexIndex;
-    uint gl_InstanceIndex = stage_input.gl_InstanceIndex;
+StructuredBuffer<vtx_t> _56 : register(t0);
+main0_out main(main0_in stage_input) {
+    vtx_t v = _56[stage_input.gl_InstanceIndex];
 
-    vtx_t v = _56[gl_InstanceIndex];
-
-    float2 p = float2(float(gl_VertexIndex & 1), float((gl_VertexIndex >> 1) & 1));
+    float2 p = float2(float(stage_input.gl_VertexIndex & 1), float((stage_input.gl_VertexIndex >> 1) & 1));
     float2 f_uv = v.uv.xy + (p * v.uv.zw);
     uint param = v.c0;
     float4 f_c0 = colour(param);
@@ -55,4 +48,3 @@ main0_out main(SPIRV_Cross_Input stage_input)
     stage_output.f_c1 = f_c1;
     return stage_output;
 }
-
