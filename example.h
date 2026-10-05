@@ -40,7 +40,7 @@ float4 colour(uint c) {
   uint g = (c >> uint(16)) & 255u;
   uint b = (c >> uint(8)) & 255u;
   uint a = c & 255u;
-  return float4(float(r), float(g), float(b), float(a)) / 255.0f;
+  return float4(r, g, b, a) / 255.0f;
 }
 
 VERTEX(main0_out, main0, vtx_t, uint gl_VertexIndex VID, uint gl_InstanceIndex IID) {
