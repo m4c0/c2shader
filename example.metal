@@ -5,13 +5,19 @@
 
 using namespace metal;
 
-struct vtx_t
-{
-    float4 rect;
-    float4 uv;
-    uint c0;
-    uint c1;
-    float2 scr;
+struct main0_out {
+  float2 f_uv        [[user(locn0)]];
+  float4 f_c0        [[user(locn1)]];
+  float4 f_c1        [[user(locn2)]];
+  float4 gl_Position [[position]];
+};
+
+struct vtx_t {
+  float4 rect;
+  float4 uv;
+  uint c0;
+  uint c1;
+  float2 scr;
 };
 
 struct vtx_t_1
@@ -28,13 +34,6 @@ struct vtx_buf
     vtx_t_1 vtx[1];
 };
 
-struct main0_out
-{
-    float2 f_uv [[user(locn0)]];
-    float4 f_c0 [[user(locn1)]];
-    float4 f_c1 [[user(locn2)]];
-    float4 gl_Position [[position]];
-};
 
 static inline __attribute__((always_inline))
 float4 colour(thread const uint& c)
@@ -67,5 +66,3 @@ vertex main0_out main0(const device vtx_buf& _56 [[buffer(0)]], uint gl_Instance
     out.gl_Position.y = -(out.gl_Position.y);    // Invert Y-axis for Metal
     return out;
 }
-
-

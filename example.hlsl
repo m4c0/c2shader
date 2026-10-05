@@ -1,10 +1,16 @@
-struct vtx_t
-{
-    float4 rect;
-    float4 uv;
-    uint c0;
-    uint c1;
-    float2 scr;
+struct main0_out {
+  float2 f_uv        : TEXCOORD0;
+  float4 f_c0        : TEXCOORD1;
+  float4 f_c1        : TEXCOORD2;
+  float4 gl_Position : SV_Position;
+};
+
+struct vtx_t {
+  float4 rect;
+  float4 uv;
+  uint c0;
+  uint c1;
+  float2 scr;
 };
 
 ByteAddressBuffer _56 : register(t0);
@@ -20,14 +26,6 @@ struct SPIRV_Cross_Input
 {
     uint gl_VertexIndex : SV_VertexID;
     uint gl_InstanceIndex : SV_InstanceID;
-};
-
-struct SPIRV_Cross_Output
-{
-    float2 f_uv : TEXCOORD0;
-    float4 f_c0 : TEXCOORD1;
-    float4 f_c1 : TEXCOORD2;
-    float4 gl_Position : SV_Position;
 };
 
 float4 colour(uint c)
@@ -65,12 +63,12 @@ void vert_main()
     gl_Position.y = -gl_Position.y;
 }
 
-SPIRV_Cross_Output main(SPIRV_Cross_Input stage_input)
+main0_out main(SPIRV_Cross_Input stage_input)
 {
     gl_VertexIndex = int(stage_input.gl_VertexIndex);
     gl_InstanceIndex = int(stage_input.gl_InstanceIndex);
     vert_main();
-    SPIRV_Cross_Output stage_output;
+    main0_out stage_output;
     stage_output.gl_Position = gl_Position;
     stage_output.f_uv = f_uv;
     stage_output.f_c0 = f_c0;
